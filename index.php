@@ -1,5 +1,8 @@
 <?php
-require_once ("src/php/productsHtml.php");
+require_once ("src/php/products.php");
+$sortOrder = $_GET['sortOrder'] ?? "";
+$sortcol = $_GET["sortcol"] ?? "";
+$q = $_GET["q"] ?? "";
 ?>
 <!DOCTYPE html>
 <html lang="sv">
@@ -11,32 +14,48 @@ require_once ("src/php/productsHtml.php");
 </head>
 
 <body>
-  <?php
-  getAllProducts($products); ?>
   <header>
     <span class="logo"></span>
     <h1>Erik O'Company</h1>
     <nav id="main-menu">
       <ul></ul>
     </nav>
-    <span><input type="text" name="sok" id="sok" placeholder="Sök..." /></span>
+    <form method="GET">
+      <input type="text" name="q" value="<?php echo $q ?>" />
+      <!-- <input type="hidden" name="sortcol" value="<?php echo $sortcol ?>" /> -->
+    </form>
   </header>
   <main class="content">
     <article class="products">
-      <thead>
-        <tr>
-          <td>Namn</td>
-          <td>Kategori</td>
-          <td>Pris (kr)</td>
-        </tr>
-      </thead>
-      <tbody id="productList">
-        <?php
-        getAllProducts($products); ?>
-      </tbody>
+      <table>
+        <thead>
+          <tr>
+            <td>Namn <a href="?sortcol=productName&sortOrder=asc&q"><i>a-z</i></a>
+              <a href="?sortcol=productName&sortOrder=desc&q"><i>z-a</i></a>
+            </td>
+            <td>Pris (kr) <a href="?sortcol=price&sortOrder=asc&q"><i>a-z</i></a>
+              <a href="?sortcol=price&sortOrder=desc&q"><i>z-a</i></a>
+            </td>
+            <td>Kategori <a href="?sortcol=categoryId&sortOrder=asc&q"><i>a-z</i></a>
+              <a href="?sortcol=categoryId&sortOrder=desc&q"><i>z-a</i></a>
+            </td>
+          </tr>
+        </thead>
+        <tbody id="productList">
+          <?php
+          allProducts($productsdb, $sortcol, $sortOrder, $q);
+          ?>
+        </tbody>
+      </table>
     </article>
   </main>
-  <aside></aside>
+  <aside>
+    <ul>
+      <?php
+      allCategory($productsdb);
+      ?>
+    </ul>
+  </aside>
   <footer class="footer"></footer>
 </body>
 
