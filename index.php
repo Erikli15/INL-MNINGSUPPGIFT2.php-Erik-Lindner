@@ -1,62 +1,34 @@
 <?php
-require_once ("src/php/products.php");
-$sortOrder = $_GET['sortOrder'] ?? "";
-$sortcol = $_GET["sortcol"] ?? "";
-$q = $_GET["q"] ?? "";
+require_once ("vendor/autoload.php");
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+
+// globala initieringar !
+require_once (dirname(__FILE__) . "/Utils/Router.php");
+
+$router = new Router();
+$router->addRoute('/', function () {
+    require __DIR__ . '/src/Pages/index.php';
+});
+
+$router->addRoute('/product', function () {
+    require __DIR__ . '/src/Pages/product.php';
+});
+
+// $router->addRoute('/newcustomer', function () {
+//     require (__DIR__ . '/src/Pages/newcustomer.php');
+// });
+
+
+$router->addRoute('/productCatagoryList', function () {
+    require __DIR__ . '/src/Pages/productCatagoryList.php';
+});
+
+// $router->addRoute('/input', function () {
+//     require __DIR__ . '/src/Pages/form.php';
+// });
+
+$router->dispatch();
 ?>
-<!DOCTYPE html>
-<html lang="sv">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Erik O`Company</title>
-</head>
-
-<body>
-  <header>
-    <span class="logo"></span>
-    <h1>Erik O'Company</h1>
-    <nav id="main-menu">
-      <ul></ul>
-    </nav>
-    <form method="GET">
-      <input type="text" name="q" value="<?php echo $q ?>" />
-      <!-- <input type="hidden" name="sortcol" value="<?php echo $sortcol ?>" /> -->
-    </form>
-  </header>
-  <main class="content">
-    <article class="products">
-      <table>
-        <thead>
-          <tr>
-            <td>Namn <a href="?sortcol=productName&sortOrder=asc&q"><i>a-z</i></a>
-              <a href="?sortcol=productName&sortOrder=desc&q"><i>z-a</i></a>
-            </td>
-            <td>Pris (kr) <a href="?sortcol=price&sortOrder=asc&q"><i>a-z</i></a>
-              <a href="?sortcol=price&sortOrder=desc&q"><i>z-a</i></a>
-            </td>
-            <td>Kategori <a href="?sortcol=categoryId&sortOrder=asc&q"><i>a-z</i></a>
-              <a href="?sortcol=categoryId&sortOrder=desc&q"><i>z-a</i></a>
-            </td>
-          </tr>
-        </thead>
-        <tbody id="productList">
-          <?php
-          allProducts($productsdb, $sortcol, $sortOrder, $q);
-          ?>
-        </tbody>
-      </table>
-    </article>
-  </main>
-  <aside>
-    <ul>
-      <?php
-      allCategory($productsdb);
-      ?>
-    </ul>
-  </aside>
-  <footer class="footer"></footer>
-</body>
-
-</html>

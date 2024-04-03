@@ -3,18 +3,16 @@ require_once ("src/models/Product.php");
 require_once ("src/models/Catagory.php");
 class Databas
 {
-    private $host = "localhost";
-    private $db = "productdatabas";
-    private $user = "root";
-    private $pass = "root";
-    private $charset = "utf8mb4";
-
     private $pdo;
 
     function __construct()
     {
-        $dsn = "mysql:host=$this->host;dbname=$this->db";
-        $this->pdo = new PDO($dsn, $this->user, $this->pass);
+        $host = $_ENV["host"];
+        $db = $_ENV["db"];
+        $user = $_ENV['user'];
+        $pass = $_ENV['pass'];
+        $dsn = "mysql:host=$host;dbname=$db";
+        $this->pdo = new PDO($dsn, $user, $pass);
         $this->ifTabletNotExist();
         $this->ifProductsNotExist();
     }
@@ -33,18 +31,18 @@ class Databas
             $sortOrder = "asc";
         }
         $sql = "SELECT * FROM products";
-        $categoryArray = [];
+        $paramsArray = [];
         $addedWhere = false;
         if ($q != null && strlen($q) > 0) {
             if (!$addedWhere) {
-                $sql .= " WHERE ";
+                $sql = $sql . " WHERE ";
                 $addedWhere = true;
             } else {
-                $sql = $sql .= " AND ";
+                $sql = $sql . " AND ";
             }
             $sql = $sql . " (productName like :q";
-            $sql = $sql . " ( or price like :q";
-            $categoryArray["q"] = "%" - $q . "%";
+            $sql = $sql . " or price like :q)";
+            $paramsArray["q"] = "%" . $q . "%";
         }
         if ($categoryId != null && strlen($categoryId) > 0) {
             if (!$addedWhere) {
@@ -53,15 +51,16 @@ class Databas
             } else {
                 $sql = $sql . " AND ";
             }
-            $sql = $sql . " CategoryId=:CategoryId)";
-            $categoryArray["CategoryId"] = $categoryId;
+            $sql = $sql . " (categoryId = :categoryId)";
+            $paramsArray["categoryId"] = $categoryId;
         }
 
 
-        $sql .= " ORDER BY $sortCol $sortOrder";
+        $sql .= " ORDER BY $sortCol $sortOrder ";
+
         $prep = $this->pdo->prepare($sql);
         $prep->setFetchMode(PDO::FETCH_CLASS, "Product");
-        $prep->execute($categoryArray);
+        $prep->execute($paramsArray);
 
         return $prep->fetchAll();
     }
@@ -80,11 +79,19 @@ class Databas
         return $prep->fetch();
     }
 
-    function getCategoryByTitle($title): Catagory|false
+    function getCategoryByTitle($title)
     {
         $prep = $this->pdo->prepare('SELECT * FROM category where title=:title');
         $prep->setFetchMode(PDO::FETCH_CLASS, 'Catagory');
         $prep->execute(['title' => $title]);
+        return $prep->fetch();
+    }
+
+    function getCatagory($id)
+    {
+        $prep = $this->pdo->prepare('SELECT * FROM category where id=:id');
+        $prep->setFetchMode(PDO::FETCH_CLASS, 'Catagory');
+        $prep->execute(['id' => $id]);
         return $prep->fetch();
     }
     function ifProductsNotExist()
