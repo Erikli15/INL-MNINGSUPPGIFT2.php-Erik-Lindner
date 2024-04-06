@@ -6,3 +6,4 @@ $database = new Databas();
 
 $database->getUserDatabas()->getAuth()->logOut();
 header("Location /");
+exit;

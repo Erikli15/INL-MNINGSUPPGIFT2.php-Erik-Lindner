@@ -27,15 +27,15 @@ $router->addRoute('/productCatagoryList', function () {
 });
 
 $router->addRoute('/user/login', function () {
-    require __DIR__ . '/src/Pages/user/login.php';
+    require __DIR__ . '/src/Pages/users/login.php';
 });
 
 $router->addRoute('/user/logout', function () {
-    require __DIR__ . '/src/Pages/user/logout.php';
+    require __DIR__ . '/src/Pages/users/logout.php';
 });
 
 $router->addRoute('/user/register', function () {
-    require __DIR__ . '/src/Pages/user/register.php';
+    require __DIR__ . '/src/Pages/users/register.php';
 });
 
 $router->dispatch();
