@@ -1,9 +1,9 @@
 <?php
 require_once ("src/models/Databas.php");
 $id = $_GET["id"];
-// $productsdb = new Databas();
+$productsdb = new Databas();
 
-// $product = $productsdb->getProduct($id);
+$product = $productsdb->getProduct($id);
 ?>
 
 <!DOCTYPE html>
@@ -16,11 +16,12 @@ $id = $_GET["id"];
 </head>
 
 <body>
-    <h1> Du klickade på produkten med id
-        <?php echo $_GET["id"];
-        ?>
-    </h1>
-
+    <h3>
+        <?php echo $product->productName ?>
+    </h3>
+    <p>
+        <?php echo $product->descrption ?>
+    </p>
 </body>
 
 </html>

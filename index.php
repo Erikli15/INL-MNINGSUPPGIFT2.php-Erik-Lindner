@@ -17,18 +17,26 @@ $router->addRoute('/product', function () {
     require __DIR__ . '/src/Pages/product.php';
 });
 
-// $router->addRoute('/newcustomer', function () {
-//     require (__DIR__ . '/src/Pages/newcustomer.php');
-// });
+$router->addRoute('/newproduct', function () {
+    require (__DIR__ . '/src/Pages/newproduct.php');
+});
 
 
 $router->addRoute('/productCatagoryList', function () {
     require __DIR__ . '/src/Pages/productCatagoryList.php';
 });
 
-// $router->addRoute('/input', function () {
-//     require __DIR__ . '/src/Pages/form.php';
-// });
+$router->addRoute('/user/login', function () {
+    require __DIR__ . '/src/Pages/user/login.php';
+});
+
+$router->addRoute('/user/logout', function () {
+    require __DIR__ . '/src/Pages/user/logout.php';
+});
+
+$router->addRoute('/user/register', function () {
+    require __DIR__ . '/src/Pages/user/register.php';
+});
 
 $router->dispatch();
 ?>

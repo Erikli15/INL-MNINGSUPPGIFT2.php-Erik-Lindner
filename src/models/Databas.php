@@ -1,10 +1,16 @@
 <?php
 require_once ("src/models/Product.php");
 require_once ("src/models/Catagory.php");
+require_once ("src/models/userDatabas.php");
 class Databas
 {
     private $pdo;
+    private $userDatabas;
 
+    function getUserDatabas()
+    {
+        return $this->userDatabas;
+    }
     function __construct()
     {
         $host = $_ENV["host"];
@@ -13,6 +19,7 @@ class Databas
         $pass = $_ENV['pass'];
         $dsn = "mysql:host=$host;dbname=$db";
         $this->pdo = new PDO($dsn, $user, $pass);
+        $this->userDatabas = new userDatabas($this->pdo);
         $this->ifTabletNotExist();
         $this->ifProductsNotExist();
     }
@@ -266,10 +273,33 @@ class Databas
             $this->addCategory($categoryName);
             $category = $this->getCategoryByTitle($categoryName);
         }
-        $prep = $this->pdo->prepare('INSERT INTO products (productName, price, categoryId) VALUES(:productName, :price, :categoryId)');
-        $prep->execute(["productName" => $productName, "price" => $price, "categoryId" => $category->id]);
+        $prep = $this->pdo->prepare('INSERT INTO products (productName, price, categoryId, descrption) VALUES(:productName, :price, :categoryId, :descrption)');
+        $prep->execute(["productName" => $productName, "price" => $price, "categoryId" => $category->id, "descrption" => $descrption]);
         return $this->pdo->lastInsertId();
     }
+
+    function updateProuct($id, $productName, $price, $categoryId, $descrption)
+    {
+        $prep = $this->pdo->prepare("UPDATE Product SET
+        productName=:productName, price=:price ,categoryId=:categoryId, descrption=:descrption
+        WHERE id= :id");
+        $prep->execute(["productName" => $productName, "price" => $price, "categoryId" => $categoryId, "descrption" => $descrption, "id" => $id]);
+    }
+
+    function addProuct($productName, $price, $categoryId, $descrption)
+    {
+        $prep = $this->pdo->prepare("UPDATE INTO Product
+        (productName, price, categoryId, descrption) 
+        (:productName, :price, :categoryId, :descrption);");
+        $prep->execute([
+            "productName" => $productName,
+            "price" => $price,
+            "categoryId" => $categoryId,
+            "descrption" => $descrption
+        ]);
+        return $this->pdo->lastInsertId();
+    }
+
     function ifTabletNotExist()
     {
 
@@ -291,13 +321,16 @@ class Databas
             `productName` varchar(200) NOT NULL,
             `price` INT,
             `categoryId` INT NOT NULL,
-            `descrption` varchar(500),
+            `descrption` varchar(1000),
             PRIMARY KEY (`id`),
             FOREIGN KEY (`categoryId`)
             REFERENCES category(id)
             ) ";
 
         $this->pdo->exec($sql);
+
+        $this->userDatabas->setUpUser();
+        $this->userDatabas->seedUser();
 
         $initialized = true;
     }

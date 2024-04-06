@@ -43,13 +43,13 @@ $urlModifier = new UrlModifier();
         <thead>
             <th>Namn
                 <a
-                    href="?sortcol=productName&sortOrder=asc&q=<?php echo $q ?>&id=<?php echo $categoryId ?>"><i>a-z</i></a>
+                    href="?sortCol=productName&sortOrder=asc&q=<?php echo $q ?>&id=<?php echo $categoryId ?>"><i>a-z</i></a>
                 <a
-                    href="?sortcol=productName&sortOrder=desc&q=<?php echo $q ?>&id=<?php echo $categoryId ?>"><i>z-a</i></a>
+                    href="?sortCol=productName&sortOrder=desc&q=<?php echo $q ?>&id=<?php echo $categoryId ?>"><i>z-a</i></a>
             </th>
             <th>Pris
-                <a href="?sortcol=price&sortOrder=asc&q=<?php echo $q ?>&id=<?php echo $categoryId ?>"><i>a-z</i></a>
-                <a href="?sortcol=price&sortOrder=desc&q=<?php echo $q ?>&id=<?php echo $categoryId ?>"><i>z-a</i></a>
+                <a href="?sortCol=price&sortOrder=asc&q=<?php echo $q ?>&id=<?php echo $categoryId ?>"><i>a-z</i></a>
+                <a href="?sortCol=price&sortOrder=desc&q=<?php echo $q ?>&id=<?php echo $categoryId ?>"><i>z-a</i></a>
             </th>
         </thead>
         <tbody>
