@@ -28,7 +28,11 @@ class Databas
         return $this->pdo->query('SELECT * FROM category')->fetchAll(PDO::FETCH_CLASS, 'Catagory');
 
     }
+    function getPopularProducts()
+    {
+        return $this->pdo->query('SELECT * FROM products order by Popularity desc limit 0,10')->fetchAll(PDO::FETCH_CLASS, 'Product');
 
+    }
     function searchProducts($sortCol, $sortOrder, $q, $categoryId)
     {
         if ($sortCol == null) {

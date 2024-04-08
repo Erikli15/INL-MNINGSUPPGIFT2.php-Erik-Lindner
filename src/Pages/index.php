@@ -1,5 +1,4 @@
 <?php
-require_once ("products.php");
 require_once ("src/Pages/layouts/header.php");
 require_once ("src/Pages/layouts/aside.php");
 require_once ("src/models/Databas.php");
@@ -31,26 +30,36 @@ $q = $_GET["q"] ?? "";
   <div class="d-flex">
     <main class="p-2 w-100">
       <article class=" products">
-        <table>
+        <table class="table table-dark table-striped">
           <thead>
             <tr>
-              <td>Namn <a href="?sortcol=productName&sortOrder=asc&q=<?php echo $q ?>"><i
-                    class="bi bi-arrow-up"></i></a>
-                <a href="?sortcol=productName&sortOrder=desc&q=<?php echo $q ?>"><i class="bi bi-arrow-down"></i></a>
+              <td></td>
+              <td>Namn
               </td>
-              <td>Pris (kr) <a href="?sortcol=price&sortOrder=asc&q=<?php echo $q ?>"><i class="bi bi-arrow-up"></i></a>
-                <a href="?sortcol=price&sortOrder=desc&q=<?php echo $q ?>"><i class="bi bi-arrow-down"></i></a>
+              <td>Pris (kr)
               </td>
-              <td>Kategori <a href="?sortcol=categoryId&sortOrder=asc&q=<?php echo $q ?>"><i
-                    class="bi bi-arrow-up"></i></a>
-                <a href="?sortcol=categoryId&sortOrder=desc&q=<?php echo $q ?>"><i class="bi bi-arrow-down"></i></a>
+              <td>Kategori
               </td>
             </tr>
           </thead>
           <tbody id="productList">
-            <?php
-            allProducts($productsdb, $sortcol, $sortOrder, $q);
-            ?>
+            <?php foreach ($database->searchProducts($sortOrder, $sortcol, $q, null) as $product) {
+              ; ?>
+              <tr>
+                <td>
+                  <img src="<?php echo $product->imgUrl ?>">
+                </td>
+                <td>
+                  <?php echo $product->productName ?>
+                </td>
+                <td>
+                  <?php echo $product->price ?>
+                </td>
+                <td>
+                  <?php echo $product->categoryId ?>
+                </td>
+              </tr>
+            <?php } ?>
           </tbody>
         </table>
       </article>

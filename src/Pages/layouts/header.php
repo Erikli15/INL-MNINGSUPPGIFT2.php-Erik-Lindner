@@ -14,7 +14,7 @@ function headerLayout($database)
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Produkterna</a></li>
+                    <li><a href="/products" class="nav-link px-2 text-white">Produkterna</a></li>
                     <li><a href="#" class="nav-link px-2 text-white">Kontakta oss</a></li>
                     <li><a href="#" class="nav-link px-2 text-white">Om oss</a></li>
                 </ul>
