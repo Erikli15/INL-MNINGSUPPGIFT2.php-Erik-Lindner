@@ -39,7 +39,7 @@ function headerLayout($database)
                     }
                     ?>
                 </div>
-                <button type="button" class="btn btn-secondary">Admin</button>
+                <button type="button" class="btn btn-secondary"><a href="/admin">Admin</a></button>
             </div>
         </div>
     </header>

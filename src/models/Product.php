@@ -6,7 +6,7 @@ class Product
     public $price;
     public $categoryId;
 
-    public $descrption;
+    public $description;
 
     public $imgUrl;
 }

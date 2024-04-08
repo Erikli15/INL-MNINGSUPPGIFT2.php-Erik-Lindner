@@ -1,6 +1,7 @@
 <?php
 require_once ("products.php");
 require_once ("src/Pages/layouts/header.php");
+require_once ("src/Pages/layouts/aside.php");
 require_once ("src/models/Databas.php");
 $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
@@ -19,7 +20,6 @@ $q = $_GET["q"] ?? "";
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-
   <title>Erik O`Company</title>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -58,7 +58,7 @@ $q = $_GET["q"] ?? "";
     <aside class="p-2 flex-shrink-1">
       <ul>
         <?php
-        allCategory($productsdb);
+        asideLayout($database);
         ?>
       </ul>
     </aside>

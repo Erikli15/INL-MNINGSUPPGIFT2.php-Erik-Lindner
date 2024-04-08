@@ -3,13 +3,12 @@ require_once ("src/models/Databas.php");
 require_once ("Utils/UrlModifier.php");
 require_once ("src/Pages/layouts/header.php");
 $database = new Databas();
-$productsdb = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortCol = $_GET["sortCol"] ?? "";
 $q = $_GET["q"] ?? "";
 $categoryId = $_GET["id"] ?? "";
 
-$categoryProducts = $productsdb->getCatagory($categoryId);
+$categoryProducts = $database->getCatagory($categoryId);
 $urlModifier = new UrlModifier();
 
 ?>
@@ -55,7 +54,7 @@ $urlModifier = new UrlModifier();
             </th>
         </thead>
         <tbody>
-            <?php foreach ($productsdb->searchProducts($sortCol, $sortOrder, $q, $categoryId) as $productCategory) {
+            <?php foreach ($database->searchProducts($sortCol, $sortOrder, $q, $categoryId) as $productCategory) {
                 ?>
                 <tr>
                     <td>
