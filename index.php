@@ -17,13 +17,20 @@ $router->addRoute('/product', function () {
     require __DIR__ . '/src/Pages/product.php';
 });
 
-$router->addRoute('/newproduct', function () {
-    require (__DIR__ . '/src/Pages/newproduct.php');
+$router->addRoute('/addproduct', function () {
+    require (__DIR__ . '/src/Pages/addProduct.php');
 });
-
 
 $router->addRoute('/productCatagoryList', function () {
     require __DIR__ . '/src/Pages/productCatagoryList.php';
+});
+
+$router->addRoute('/changeproduct', function () {
+    require __DIR__ . '/src/Pages/changeProduct.php';
+});
+
+$router->addRoute('/admin', function () {
+    require __DIR__ . '/src/Pages/admin.php';
 });
 
 $router->addRoute('/user/login', function () {
