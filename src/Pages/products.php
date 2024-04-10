@@ -4,7 +4,7 @@ require_once ("src/Pages/layouts/aside.php");
 require_once ("src/models/Databas.php");
 $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
-$sortcol = $_GET["sortcol"] ?? "";
+$sortCol = $_GET["sortCol"] ?? "";
 $q = $_GET["q"] ?? "";
 
 ?>
@@ -30,29 +30,30 @@ $q = $_GET["q"] ?? "";
     <div class="d-flex">
         <main class="p-2 w-100">
             <article class=" products">
-                <table>
+                <table class="table table-dark table-striped">
                     <thead>
                         <tr>
                             <td></td>
-                            <td>Namn <a href="?sortcol=productName&sortOrder=asc&q=<?php echo $q ?>"><i
+                            <td>Namn <a href="?sortCol=productName&sortOrder=asc&q=<?php echo $q ?>"><i
                                         class="bi bi-arrow-up"></i></a>
-                                <a href="?sortcol=productName&sortOrder=desc&q=<?php echo $q ?>"><i
+                                <a href="?sortCol=productName&sortOrder=desc&q=<?php echo $q ?>"><i
                                         class="bi bi-arrow-down"></i></a>
                             </td>
-                            <td>Pris (kr) <a href="?sortcol=price&sortOrder=asc&q=<?php echo $q ?>"><i
+                            <td>Pris (kr) <a href="?sortCol=price&sortOrder=asc&q=<?php echo $q ?>"><i
                                         class="bi bi-arrow-up"></i></a>
-                                <a href="?sortcol=price&sortOrder=desc&q=<?php echo $q ?>"><i
+                                <a href="?sortCol=price&sortOrder=desc&q=<?php echo $q ?>"><i
                                         class="bi bi-arrow-down"></i></a>
                             </td>
-                            <td>Kategori <a href="?sortcol=categoryId&sortOrder=asc&q=<?php echo $q ?>"><i
+                            <td>Kategori <a href="?sortCol=categoryId&sortOrder=asc&q=<?php echo $q ?>"><i
                                         class="bi bi-arrow-up"></i></a>
-                                <a href="?sortcol=categoryId&sortOrder=desc&q=<?php echo $q ?>"><i
+                                <a href="?sortCol=categoryId&sortOrder=desc&q=<?php echo $q ?>"><i
                                         class="bi bi-arrow-down"></i></a>
                             </td>
+                            <td></td>
                         </tr>
                     </thead>
                     <tbody id="productList">
-                        <?php foreach ($database->searchProducts($sortOrder, $sortcol, $q, null) as $product) {
+                        <?php foreach ($database->searchProducts($sortCol, $sortOrder, $q, null) as $product) {
                             ; ?>
                             <tr>
                                 <td>
