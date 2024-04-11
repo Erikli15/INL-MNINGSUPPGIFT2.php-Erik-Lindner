@@ -53,8 +53,8 @@ if ($database->getUserDatabas()->getAuth()->hasRole(\Delight\Auth\Role::ADMIN) =
                                         class="bi bi-arrow-down"></i></a>
                             </td>
                             <td></td>
-                            <td></td>
-                            <td></td>
+                            <td> <button><a href="/addproduct">Lägg till produkt</a></button>
+                            </td>
                         </tr>
                     </thead>
                     <tbody id="productList">
@@ -74,8 +74,8 @@ if ($database->getUserDatabas()->getAuth()->hasRole(\Delight\Auth\Role::ADMIN) =
                                     <?php echo $product->categoryId ?>
                                 </td>
                                 <td><button><a href="/product?id=<?php echo $product->id ?>">Mer info</a></button></td>
-                                <td><button><a href="/addproduct">Lägg till produkt</a></button></td>
-                                <td><button><a href="/changeproduct">Ändra produkt</a></button></td>
+                                <td><button><a href="/changeproduct?id=<?php echo $product->id ?>">Ändra
+                                            produkt</a></button></td>
 
                             </tr>
                         <?php } ?>

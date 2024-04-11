@@ -1,3 +1,38 @@
+<?php
+require_once ("Utils/Validator.php");
+require_once ("src/models/Databas.php");
+
+$database = new Databas();
+
+$id = $_GET['id'];
+
+$product = $database->getProduct($id);
+$message = "";
+$v = new Validator($_POST);
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $product->productName = $_POST["productName"];
+    $product->categoryId = $_POST["categoryId"];
+    $product->price = $_POST["price"];
+    $product->description = $_POST["description"];
+    $product->imgUrl = $_POST["imgUrl"];
+
+    $v->field("productName")->required()->alpha([" "])->min_len(1)->max_len(200);
+    $v->field("categoryId")->required()->alpha([" "])->min_len(1)->max_len(200);
+    $v->field("price")->required()->numeric()->min_val(1)->max_val(10000);
+    $v->field("description")->required()->alpha([" "])->min_len(1)->max_len(1000);
+
+    if ($v->is_valid()) {
+        $database->updateProuct($product->$id, $product->productName, $product->price, $product->categoryId, $product->description, $product->imgUrl);
+        header("Location: /");
+        exit;
+    }
+
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="se">
 
@@ -18,16 +53,28 @@
 <body>
     <form action="" method="post" class="p-3 m-0 border-0 bd-example m-0 border-0">
         <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Produktnamn</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Produktnamn">
+            <label for="name" class="form-label">Produktnamn</label>
+            <input name="productName" type="text" class="form-control" id="exampleFormControlInput1"
+                value="<?php $product->productName ?>">
         </div>
         <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Vilken katogori</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="katogorinamn">
+            <label for="name" class="form-label">Vilken katogori</label>
+            <input name="categoryId" type="text" class="form-control" id="exampleFormControlInput1"
+                value="<?php $product->categoryId ?>">
         </div>
         <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Beskrivnng</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <label for="name" class="form-label">Pris</label>
+            <input name="price" type="text" class="form-control" id="exampleFormControlInput1"
+                value="<?php $product->price ?>">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Beskrivnng</label>
+            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"
+                value="<?php $product->description ?>"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Produktbild</label>
+            <input class="form-control" type="file" id="formFile" name="imgUrl" value="<?php $product->imgUrl ?>">
         </div>
         <button type="submit" class="btn btn-primary">Spara</button>
     </form>
