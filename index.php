@@ -48,5 +48,9 @@ $router->addRoute('/user/register', function () {
     require __DIR__ . '/src/Pages/users/register.php';
 });
 
+$router->addRoute('/user/verifyuser', function () {
+    require __DIR__ . '/src/Pages/users/verifyuser.php';
+});
+
 $router->dispatch();
 ?>

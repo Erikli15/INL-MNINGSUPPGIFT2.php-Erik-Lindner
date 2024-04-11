@@ -27,12 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->addReplyTo("noreply@ysuperdupershop.com", "No-Reply"); //CC and BCC 
             $mail->isHTML(true);
             $mail->Subject = "Registrering";
-            $url = 'http://localhost:8000/verify_email?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
-            $mail->Body = "<i>Hej, klicka på <a href='$url'>$url</a></i> för att verifiera ditt konto";
+            $url = 'http://localhost:8000/?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
+            $mail->Body = "<h2>Hej, klicka på <a href='$url'>$url</a></h2> för att verifiera ditt konto hoss Erik O`Company";
             $mail->send();
 
         });
-        header('Location: /user/login');
+        header('Location: /user/verifyuser');
         exit;
     } catch (Exception $e) {
         $message = "Error";
