@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Port = $_ENV['Port'];
 
             $mail->From = "erik_lindener1@hotmail.com";
-            $mail->FromName = "Hello"; //To address and name 
-            $mail->addAddress($_POST['username']); //Address to which recipient will reply 
-            $mail->addReplyTo("noreply@ysuperdupershop.com", "No-Reply"); //CC and BCC 
+            $mail->FromName = "Hello";
+            $mail->addAddress($_POST['username']);
+            $mail->addReplyTo("noreply@ysuperdupershop.com", "No-Reply");
             $mail->isHTML(true);
             $mail->Subject = "Registrering";
             $url = 'http://localhost:8000/?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
