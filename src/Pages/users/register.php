@@ -1,6 +1,6 @@
 <?php
-require "vendor/autoload.php";
-require_once "src/models/Databas.php";
+require_once ("vendor/autoload.php");
+require_once ("src/models/Databas.php");
 
 $database = new Databas();
 
@@ -12,9 +12,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     try {
         $userId = $database->getUserDatabas()->getAuth()->register($username, $password, $username, function ($selector, $token) {
-            echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
-            echo '  For emails, consider using the mail(...) function, Symfony Mailer, Swiftmailer, PHPMailer, etc.';
-            echo '  For SMS, consider using a third-party service and a compatible SDK';
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host = $_ENV['Host'];
+            $mail->SMTPAuth = $_ENV['SMTPAuth'];
+            $mail->Username = $_ENV['Username'];
+            $mail->Password = $_ENV['Password'];
+            $mail->SMTPSecure = $_ENV['SMTPSecure'];
+            $mail->Port = $_ENV['Port'];
+
+            $mail->From = "erik_lindener1@hotmail.com";
+            $mail->FromName = "Hello"; //To address and name 
+            $mail->addAddress($_POST['username']); //Address to which recipient will reply 
+            $mail->addReplyTo("noreply@ysuperdupershop.com", "No-Reply"); //CC and BCC 
+            $mail->isHTML(true);
+            $mail->Subject = "Registrering";
+            $url = 'http://localhost:8000/verify_email?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
+            $mail->Body = "<i>Hej, klicka på <a href='$url'>$url</a></i> för att verifiera ditt konto";
+            $mail->send();
+
         });
         header('Location: /user/login');
         exit;
