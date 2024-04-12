@@ -43,7 +43,7 @@ $q = $_GET["q"] ?? "";
             </tr>
           </thead>
           <tbody id="productList">
-            <?php foreach ($database->searchProducts($sortOrder, $sortcol, $q, null) as $product) {
+            <?php foreach ($database->getPopularProducts() as $product) {
               ; ?>
               <tr>
                 <td>

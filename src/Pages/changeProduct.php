@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $v->field("productName")->required()->alpha([" "])->min_len(1)->max_len(200);
     $v->field("categoryId")->required()->alpha([" "])->min_len(1)->max_len(200);
     $v->field("price")->required()->numeric()->min_val(1)->max_val(10000);
-    $v->field("description")->required()->alpha([" "])->min_len(1)->max_len(1000);
+    $v->field("description")->required()->min_len(1)->max_len(1000);
 
     if ($v->is_valid()) {
         $database->updateProuct($product->$id, $product->productName, $product->price, $product->categoryId, $product->description, $product->imgUrl);
@@ -55,26 +55,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="mb-3">
             <label for="name" class="form-label">Produktnamn</label>
             <input name="productName" type="text" class="form-control" id="exampleFormControlInput1"
-                value="<?php $product->productName ?>">
+                value="<?php echo $product->productName ?>">
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Vilken katogori</label>
             <input name="categoryId" type="text" class="form-control" id="exampleFormControlInput1"
-                value="<?php $product->categoryId ?>">
+                value="<?php echo $product->categoryId ?>">
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Pris</label>
             <input name="price" type="text" class="form-control" id="exampleFormControlInput1"
-                value="<?php $product->price ?>">
+                value="<?php echo $product->price ?>">
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Beskrivnng</label>
             <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"
-                value="<?php $product->description ?>"></textarea>
+                value="<?php echo $product->description ?>"></textarea>
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Produktbild</label>
-            <input class="form-control" type="file" id="formFile" name="imgUrl" value="<?php $product->imgUrl ?>">
+            <input class="form-control" type="file" id="formFile" name="imgUrl" value="<?php echo $product->imgUrl ?>">
         </div>
         <button type="submit" class="btn btn-primary">Spara</button>
     </form>

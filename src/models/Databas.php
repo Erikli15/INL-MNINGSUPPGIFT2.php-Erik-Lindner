@@ -2,6 +2,7 @@
 require_once ("src/models/Product.php");
 require_once ("src/models/Catagory.php");
 require_once ("src/models/userDatabas.php");
+require_once ("src/migrations/migrationBase.php");
 class Databas
 {
     private $pdo;
@@ -28,9 +29,10 @@ class Databas
         return $this->pdo->query('SELECT * FROM category')->fetchAll(PDO::FETCH_CLASS, 'Catagory');
 
     }
+
     function getPopularProducts()
     {
-        return $this->pdo->query('SELECT * FROM products order by Popularity desc limit 0,10')->fetchAll(PDO::FETCH_CLASS, 'Product');
+        return $this->pdo->query('SELECT * FROM products order by popularity desc limit 0,10')->fetchAll(PDO::FETCH_CLASS, 'Product');
 
     }
     function searchProducts($sortCol, $sortOrder, $q, $categoryId)
@@ -872,6 +874,8 @@ class Databas
 
         $this->userDatabas->setUpUser();
         $this->userDatabas->seedUser();
+
+        new Migrator($this->pdo);
 
         $initialized = true;
     }

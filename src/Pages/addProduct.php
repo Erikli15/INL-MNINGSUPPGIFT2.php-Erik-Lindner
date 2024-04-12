@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $v->field("productName")->required()->alpha([" "])->min_len(1)->max_len(200);
     $v->field("categoryId")->required()->alpha([" "])->min_len(1)->max_len(200);
     $v->field("price")->required()->numeric()->min_val(1)->max_val(10000);
-    $v->field("description")->required()->alpha([" "])->min_len(1)->max_len(1000);
+    $v->field("description")->required()->min_len(1)->max_len(1000);
 
     if ($v->is_valid()) {
         $database->addProduct($product->productName, $product->price, $product->categoryId, $product->description, $product->imgUrl);

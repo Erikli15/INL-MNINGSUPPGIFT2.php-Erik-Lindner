@@ -9,5 +9,7 @@ class Product
     public $description;
 
     public $imgUrl;
+
+    public $popularity;
 }
 
