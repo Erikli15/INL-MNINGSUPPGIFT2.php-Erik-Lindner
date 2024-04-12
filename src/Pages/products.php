@@ -6,6 +6,8 @@ $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortCol = $_GET["sortCol"] ?? "";
 $q = $_GET["q"] ?? "";
+$pageNo = $_GET['pageNo'] ?? "1";
+$pageSize = $_GET['pageSize'] ?? "20";
 
 ?>
 <!DOCTYPE html>
@@ -52,7 +54,9 @@ $q = $_GET["q"] ?? "";
                         </tr>
                     </thead>
                     <tbody id="productList">
-                        <?php foreach ($database->searchProducts($sortCol, $sortOrder, $q, null) as $product) {
+                        <?php
+                        $result = $database->searchProducts($sortCol, $sortOrder, $q, null, $pageNo, $pageSize);
+                        foreach ($result["data"] as $product) {
                             ; ?>
                             <tr>
                                 <td>
@@ -83,6 +87,21 @@ $q = $_GET["q"] ?? "";
         </aside>
     </div>
     <footer class="footer"></footer>
+
+    <?php
+    for ($i = 1; $i <= $result["num_pages"]; $i++) {
+        if ($pageNo == $i) {
+            echo "$i&nbsp;";
+        } else {
+            echo "<a class='listbutton' href='?sortCol=$sortCol&sortOrder=$sortOrder&q=$q&pageNo=$i'>$i</a>&nbsp;";
+        }
+    }
+
+
+    ?>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

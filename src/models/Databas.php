@@ -35,7 +35,7 @@ class Databas
         return $this->pdo->query('SELECT * FROM products order by popularity desc limit 0,10')->fetchAll(PDO::FETCH_CLASS, 'Product');
 
     }
-    function searchProducts($sortCol, $sortOrder, $q, $categoryId)
+    function searchProducts($sortCol, $sortOrder, $q, $categoryId, $pageNo = 1, $pageSize = 20)
     {
         if ($sortCol == null) {
             $sortCol = "id";
@@ -71,11 +71,26 @@ class Databas
 
         $sql .= " ORDER BY $sortCol $sortOrder ";
 
+        $sqlCount = str_replace("SELECT * FROM ", "SELECT CEIL (COUNT(*)/$pageSize) FROM ", $sql);
+
+        // $pageNo = 1, $pageSize = 20
+        $offset = ($pageNo - 1) * $pageSize;
+        $sql .= " limit $offset, $pageSize";
+
+
         $prep = $this->pdo->prepare($sql);
         $prep->setFetchMode(PDO::FETCH_CLASS, "Product");
         $prep->execute($paramsArray);
 
-        return $prep->fetchAll();
+        $data = $prep->fetchAll();
+
+        $prep2 = $this->pdo->prepare($sqlCount);
+        $prep2->execute($paramsArray);
+
+        $num_pages = $prep2->fetchColumn();       // antal sidor tex 3      
+
+        $arr = ["data" => $data, "num_pages" => $num_pages];
+        return $arr;
     }
     function getProduct($id)
     {
