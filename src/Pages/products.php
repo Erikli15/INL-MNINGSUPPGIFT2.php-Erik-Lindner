@@ -1,6 +1,7 @@
 <?php
 require_once ("src/Pages/layouts/header.php");
 require_once ("src/Pages/layouts/aside.php");
+require_once ("src/Pages/layouts/footer.php");
 require_once ("src/models/Databas.php");
 $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
@@ -21,6 +22,10 @@ $pageSize = $_GET['pageSize'] ?? "20";
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/footers/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <script src="../assets/js/color-modes.js"></script>
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Erik O`Company</title>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -86,8 +91,6 @@ $pageSize = $_GET['pageSize'] ?? "20";
             </ul>
         </aside>
     </div>
-    <footer class="footer"></footer>
-
     <?php
     for ($i = 1; $i <= $result["num_pages"]; $i++) {
         if ($pageNo == $i) {
@@ -97,10 +100,10 @@ $pageSize = $_GET['pageSize'] ?? "20";
         }
     }
 
-
     ?>
+    <footer> <?php footerLayout(); ?></footer>
 
-
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
