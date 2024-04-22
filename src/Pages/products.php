@@ -5,10 +5,23 @@ require_once ("src/Pages/layouts/footer.php");
 require_once ("src/models/Databas.php");
 $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
+$sortOrder = $sortOrder == 'desc' ? 'desc' : 'asc';
 $sortCol = $_GET["sortCol"] ?? "";
 $q = $_GET["q"] ?? "";
-$pageNo = $_GET['pageNo'] ?? "1";
-$pageSize = $_GET['pageSize'] ?? "20";
+$pageNo = intval($_GET['pageNo'] ?? "1");
+$pageSize = intval($_GET['pageSize'] ?? "20");
+
+function oneOf($sortCol, $arrayOfValid, $default)
+{
+    foreach ($arrayOfValid as $a) {
+        if (strcasecmp($a, $sortCol) == 0) {
+            return $a;
+        }
+    }
+    return $default;
+}
+$sortCol = oneOf($sortCol, ["productName", "price", "categoryId", "id"], "id");
+
 
 ?>
 <!DOCTYPE html>
@@ -101,7 +114,7 @@ $pageSize = $_GET['pageSize'] ?? "20";
     }
 
     ?>
-    <footer> <?php footerLayout(); ?></footer>
+    <footer> <?php footerLayout(); ?> </footer>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
