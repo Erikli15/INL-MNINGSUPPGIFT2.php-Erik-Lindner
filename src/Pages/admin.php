@@ -4,7 +4,9 @@ require_once ("src/Pages/layouts/aside.php");
 require_once ("src/models/Databas.php");
 $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
-$sortcol = $_GET["sortcol"] ?? "";
+$sortCol = $_GET["sortCol"] ?? "";
+$pageNo = intval($_GET['pageNo'] ?? "1");
+$pageSize = intval($_GET['pageSize'] ?? "100");
 $q = $_GET["q"] ?? "";
 if ($database->getUserDatabas()->getAuth()->hasRole(\Delight\Auth\Role::ADMIN) == false) {
     header("Location: /user/login");
@@ -58,7 +60,8 @@ if ($database->getUserDatabas()->getAuth()->hasRole(\Delight\Auth\Role::ADMIN) =
                         </tr>
                     </thead>
                     <tbody id="productList">
-                        <?php foreach ($database->searchProducts($sortOrder, $sortcol, $q, null) as $product) {
+                        <?php $result = $database->searchProducts($sortCol, $sortOrder, $q, null, $pageNo, $pageSize);
+                        foreach ($result["data"] as $product) {
                             ; ?>
                             <tr>
                                 <td>

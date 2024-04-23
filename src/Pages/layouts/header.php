@@ -36,11 +36,11 @@ function headerLayout($database)
                         <button type="button" class="btn btn-info"><a href="/user/login" class="button">Logga
                                 in</a></button>
                         <button type="button" class="btn btn-warning"><a href="/user/register"
-                                class="button">Register</a></button>
+                                class="button">Registrera</a></button>
                         <?php
                     } else {
                         ?>
-                        <?php echo $database->getUserDatabas()->getAuth()->getEmail(); ?>
+                        <?php echo $database->getUserDatabas()->getAuth()->userName(); ?>
                         <button type="button" class="btn btn-outline-light me-2"><a href="/user/logout">Logga
                                 ut</a></button>
                         <?php
