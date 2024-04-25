@@ -1,6 +1,7 @@
 <?php
 require_once ("src/Pages/layouts/header.php");
 require_once ("src/Pages/layouts/aside.php");
+require_once ("src/Pages/layouts/footer.php");
 require_once ("src/models/Databas.php");
 $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
@@ -67,12 +68,15 @@ $q = $_GET["q"] ?? "";
     <aside class="p-2 flex-shrink-1">
       <ul>
         <?php
+
         asideLayout($database);
         ?>
       </ul>
     </aside>
   </div>
-  <footer class="footer"></footer>
+  <footer>
+    <?php footerLayout(); ?>
+  </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
