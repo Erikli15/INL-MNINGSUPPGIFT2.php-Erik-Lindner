@@ -40,7 +40,7 @@ function headerLayout($database)
                         <?php
                     } else {
                         ?>
-                        <?php echo $database->getUserDatabas()->getAuth()->userName(); ?>
+                        <?php echo $database->getUserDatabas()->getAuth()->getEmail(); ?>
                         <button type="button" class="btn btn-outline-light me-2"><a href="/user/logout">Logga
                                 ut</a></button>
                         <?php

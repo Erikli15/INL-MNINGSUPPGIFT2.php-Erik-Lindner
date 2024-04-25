@@ -1,9 +1,11 @@
 <?php
-require "vendor/autoload.php";
-require_once "src/models/Databas.php";
+require_once ('vendor/autoload.php');
+require_once ('src/models/Databas.php');
 
-$database = new Databas();
 
-$database->getUserDatabas()->getAuth()->logOut();
-header('Location /');
+
+$dbContext = new Databas();
+
+$dbContext->getUserDatabas()->getAuth()->logOut();
+header('Location: /');
 exit;
