@@ -4,10 +4,24 @@ require_once ("src/Pages/layouts/aside.php");
 require_once ("src/models/Databas.php");
 $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
+$sortOrder = $sortOrder == 'desc' ? 'desc' : 'asc';
 $sortCol = $_GET["sortCol"] ?? "";
 $pageNo = intval($_GET['pageNo'] ?? "1");
-$pageSize = intval($_GET['pageSize'] ?? "100");
+$pageSize = intval($_GET['paSgeSize'] ?? "100");
 $q = $_GET["q"] ?? "";
+
+function oneOf($sortCol, $arrayOfValid, $default)
+{
+    foreach ($arrayOfValid as $a) {
+        if (strcasecmp($a, $sortCol) == 0) {
+            return $a;
+        }
+    }
+    return $default;
+}
+$sortCol = oneOf($sortCol, ["productName", "price", "categoryId", "id"], "id");
+
+
 if ($database->getUserDatabas()->getAuth()->hasRole(\Delight\Auth\Role::ADMIN) == false) {
     header("Location: /user/login");
     exit;
