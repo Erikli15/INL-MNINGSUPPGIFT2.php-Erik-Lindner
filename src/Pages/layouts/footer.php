@@ -32,15 +32,9 @@ function footerLayout()
                 </div>
 
                 <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
-                                <use xlink:href="#twitter" />
-                            </svg></a></li>
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
-                                <use xlink:href="#instagram" />
-                            </svg></a></li>
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
-                                <use xlink:href="#facebook" />
-                            </svg></a></li>
+                    <li class="bi bi-twitter"><a class="text-body-secondary" href="#"></a></li>
+                    <li class="bi bi-instagram"><a class="text-body-secondary" href="#"></a></li>
+                    <li class="bi bi-facebook"><a class="text-body-secondary" href="#"></a></li>
                 </ul>
             </footer>
         </div>
