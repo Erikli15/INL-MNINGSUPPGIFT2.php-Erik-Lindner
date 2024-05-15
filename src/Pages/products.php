@@ -3,6 +3,7 @@ require_once ("src/Pages/layouts/header.php");
 require_once ("src/Pages/layouts/aside.php");
 require_once ("src/Pages/layouts/footer.php");
 require_once ("src/models/Databas.php");
+require_once ("src/Function/oneOf.php");
 $database = new Databas();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortOrder = $sortOrder == 'desc' ? 'desc' : 'asc';
@@ -11,15 +12,6 @@ $q = $_GET["q"] ?? "";
 $pageNo = intval($_GET['pageNo'] ?? "1");
 $pageSize = intval($_GET['pageSize'] ?? "20");
 
-function oneOf($sortCol, $arrayOfValid, $default)
-{
-    foreach ($arrayOfValid as $a) {
-        if (strcasecmp($a, $sortCol) == 0) {
-            return $a;
-        }
-    }
-    return $default;
-}
 $sortCol = oneOf($sortCol, ["productName", "price", "categoryId", "id"], "id");
 
 

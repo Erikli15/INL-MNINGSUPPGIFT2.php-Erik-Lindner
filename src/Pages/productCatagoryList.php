@@ -3,7 +3,7 @@ require_once ("src/models/Databas.php");
 require_once ("Utils/UrlModifier.php");
 require_once ("src/Pages/layouts/header.php");
 require_once ("src/Pages/layouts/footer.php");
-
+require_once ("src/Function/oneOf.php");
 
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortOrder = $sortOrder == 'desc' ? 'desc' : 'asc';
@@ -20,16 +20,6 @@ $urlModifier = new UrlModifier();
 $categoryProducts = $database->getCatagory($categoryId);
 
 
-
-function oneOf($sortCol, $arrayOfValid, $default)
-{
-    foreach ($arrayOfValid as $a) {
-        if (strcasecmp($a, $sortCol) == 0) {
-            return $a;
-        }
-    }
-    return $default;
-}
 $sortCol = oneOf($sortCol, ["productName", "price", "id"], "id");
 ?>
 
