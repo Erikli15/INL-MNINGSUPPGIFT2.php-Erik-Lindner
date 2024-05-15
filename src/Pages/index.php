@@ -26,7 +26,6 @@ $q = $_GET["q"] ?? "";
 </head>
 
 <body>
-
   <?php headerLayout($database); ?>
   <div class="d-flex">
     <main class="p-2 w-100">

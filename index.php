@@ -52,5 +52,13 @@ $router->addRoute('/user/verifyuser', function () {
     require __DIR__ . '/src/Pages/users/verifyuser.php';
 });
 
+$router->addRoute('/ifProductsNotExist', function () {
+    require __DIR__ . '/src/Function/ifProductsNotExist.php';
+});
+
+$router->addRoute('/databas', function () {
+    require __DIR__ . '/src/models/Databas.php';
+});
+
 $router->dispatch();
 ?>
