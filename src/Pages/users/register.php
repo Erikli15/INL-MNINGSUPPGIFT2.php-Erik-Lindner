@@ -1,37 +1,58 @@
 <?php
 require_once ("vendor/autoload.php");
 require_once ("src/models/Databas.php");
+require_once ("src/models/userDitalesDatabas.php");
+require_once ("Utils/Validator.php");
+require_once ("Utils/Mailer.php");
 
 $database = new Databas();
+$user = new userDitalesDatabas();
 
 $message = "";
 $username = "";
 
+$v = new Validator($_POST);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = $_POST['username'] ?? "";
+    $password = $_POST['password'] ?? "";
+
+    $user->firstName = $_POST["firstName"];
+    $user->lastName = $_POST["lastName"];
+    $user->streetAddress = $_POST["streetAddress"];
+    $user->zipCode = $_POST["zipCode"];
+    $user->city = $_POST["city"];
+
+
+    $v->field('username')->required()->email();
+    $v->field('password')->required()->min_len(8)->max_len(20)->must_contain('!@#$&')->must_contain('a-z')->must_contain('A-Z')->must_contain('0-9');
+
+    if ($v->is_valid()) {
+        $message = "Du är regestrerad";
+    } else {
+        $message = "Något gick snett";
+    }
+
     try {
         $userId = $database->getUserDatabas()->getAuth()->register($username, $password, $username, function ($selector, $token) {
+            $username = "";
             $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-            $mail->isSMTP();
-            $mail->Host = $_ENV['Host'];
-            $mail->SMTPAuth = $_ENV['SMTPAuth'];
-            $mail->Username = $_ENV['Username'];
-            $mail->Password = $_ENV['Password'];
-            $mail->SMTPSecure = $_ENV['SMTPSecure'];
-            $mail->Port = $_ENV['Port'];
-
-            $mail->From = "erik_lindener1@hotmail.com";
-            $mail->FromName = "Hello";
+            $mailer = new Mailer($mail);
+            $mail->AllowEmpty = true;
             $mail->addAddress($_POST['username']);
             $mail->addReplyTo("noreply@ysuperdupershop.com", "No-Reply");
-            $mail->isHTML(true);
-            $mail->Subject = "Registrering";
+            $subject = "Registrering";
             $url = 'http://localhost:8000/?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
-            $mail->Body = "<h2>Hej, klicka på <a href='$url'>$url</a></h2> för att verifiera ditt konto hoss Erik O`Company";
+            $body = "<h2>Hej, klicka på <a href='$url'>$url</a></h2> för att verifiera ditt konto hoss Erik O`Company";
+            $mailer->sendMail($mailer, $subject, $body, $username, $selector, $token);
             $mail->send();
-
+            if (!$mail->send()) {
+                echo "Medelande error" . $mail->ErrorInfo;
+            } else {
+                echo "Medelande har skickats";
+            }
         });
+        $database->addDetales($userId, $user->firstName, $user->lastName, $user->streetAddress, $user->zipCode, $user->city);
         header('Location: /user/verifyuser');
         exit;
     } catch (Exception $e) {
@@ -63,16 +84,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post" class="mb-3">
         <label for="name" class="form-label">Användarnamn:</label><br>
         <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"
-            name="username"><br>
+            name="username"> <span><?php echo $v->get_error_message('password') ?></span>
+        <br>
 
         <label for="name" class="form-label">Lösenord:</label><br>
         <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock"
-            name="password"><br>
+            name="password"> <span><?php echo $v->get_error_message('password') ?></span>
+        <br>
 
-        <label for="name" class="form-label">Lösenord again:</label><br>
+        <label for="name" class="form-label">Lösenord igen:</label><br>
         <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock"
-            name="passwordAgain"><br>
-        <input type="submit" placeholder="Spara">
+            name="passwordAgain"> <span><?php echo $v->get_error_message('password') ?></span>
+        <br>
+
+        <label for="name" class="form-label">Förnamn:</label><br>
+        <input type="name" id="exampleFormControlInput1" class="form-control" aria-describedby="passwordHelpBlock"
+            name="firstName"> <span><?php echo $v->get_error_message('firstName') ?></span>
+        <br>
+
+        <label for="name" class="form-label">Efternamn:</label><br>
+        <input type="name" id="exampleFormControlInput1" class="form-control" aria-describedby="passwordHelpBlock"
+            name="lastName"> <span><?php echo $v->get_error_message('lastName') ?></span>
+        <br>
+
+        <label for="name" class="form-label">Gata:</label><br>
+        <input type="street" id="exampleFormControlInput1" class="form-control" aria-describedby="passwordHelpBlock"
+            name="streetAddress"> <span><?php echo $v->get_error_message('streetAddress') ?></span>
+        <br>
+
+        <label for="name" class="form-label">Post nummer:</label><br>
+        <input type="postal" id="exampleFormControlInput1" class="form-control" aria-describedby="passwordHelpBlock"
+            name="zipCode"> <span><?php echo $v->get_error_message('zipCode') ?></span>
+        <br>
+
+        <label for="name" class="form-label">Stad:</label><br>
+        <input type="city" id="exampleFormControlInput1" class="form-control" aria-describedby="passwordHelpBlock"
+            name="city"> <span><?php echo $v->get_error_message('city') ?></span>
+        <br>
+
+        <input type="submit" placeholder="Spara"><br>
+        <span><?php echo $v->get_error_message('') ?></span>
     </form>
 </body>
 

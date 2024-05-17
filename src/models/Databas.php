@@ -188,6 +188,13 @@ class Databas
         return $this->pdo->lastInsertId();
     }
 
+    function addDetales($userId, $firstName, $lastName, $streetAddress, $zipCode, $city)
+    {
+        $prep = $this->pdo->prepare("INSERT INTO details (userId, firstName, lastName, streetAddress, zipCode, city) VALUES(:userId, :firstName, :lastName, :streetAddress, :zipCode, :city)");
+        $prep->execute(["userId" => $userId, "firstName" => $firstName, "lastName" => $lastName, "streetAddress" => $streetAddress, "zipCode" => $zipCode, "city" => $city]);
+        return $this->pdo->lastInsertId();
+    }
+
     function ifTabletNotExist()
     {
         static $initialized = false;
@@ -215,6 +222,19 @@ class Databas
             ) ";
 
         $this->pdo->exec($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS `userDitales` (
+            `Id` INT AUTO_INCREMENT NOT NULL,
+            `userId` INT  NOT NULL,
+            `firstName` varchar (50) NOT NULL,
+            `lastName` varchar (50) NOT NULL,
+            `streetAddress` varchar(50) NOT NULL,
+            `zipCode` varchar(10) NOT NULL,
+            `city` varchar(50) NOT NULL,
+            PRIMARY KEY (`id`)
+            ) ";
+        $this->pdo->exec($sql);
+
 
         $this->userDatabas->setUpUser();
         $this->userDatabas->seedUser();
